@@ -79,17 +79,45 @@ function promptUser() {
         productPurchased.push(custPurchased);
 
     	//connects to the mysql database and selects the item the user selected above based on the item id number entered
-        connection.query('SELECT * FROM products WHERE item_id = ?', productPurchased.item_id, (err,res) => {
+        connection.query('SELECT * FROM products WHERE item_id=?', productPurchased[0].item_id, (err,res) => {
             if (err) console.log(err, 'That item ID does not exist!');
 
+            //if the stock quantity available is less than the amount that the user wanted to purchase then the user will be alerted that the product is out of stock
             if (res[0].stock_quantity < productPurchased[0].quantity) {
-                console.log(colors.bgYellow.black(`Sorry ! THe item is out of stock !`));
+                console.log(colors.bgYellow.black(`Sorry ! The item is out of stock !`));
                 connection.end();
+
+			//otherwise if the stock amount available is more than or equal to the amount being asked for then the purchase is continued and the user is alerted of what items are being purchased, how much one item is and what the total amount is
+            } else if (res[0].stock_quantity >= productPurchased[0].quantity) {
+                console.log('');
+                console.log(productPurchased[0].quantity +' items purchased');
+                console.log('ITEM: ' + res[0].product_name + ' \nPRICE: ' + res[0].price);
+                    
+                //this creates the variable saleTotal that contains the total amount the user is paying for this total puchase
+                var saleTotal = res[0].price * productPurchased[0].quantity;
+
+                //connect to mysql database departments and update the saleTotal of the item purchased
+                connection.query("UPDATE Departments SET TotalSales = ? WHERE department_name=?;", [saleTotal, res[0].department_name], (err, resOne) => {
+                    if (err) console.log('error ' + err);
+                    return resOne;
+                });
+
+                console.log('TOTAL: ' + saleTotal);
+
+                //variable for updated stock quantity
+                var newQuantity = res[0].stock_quantity - productPurchased[0].quantity;
+
+                //update database stocks
+                connection.query("UPDATE products SET stock_quantity = " + newQuantity +" WHERE item_id = " + productPurchased[0].item_id, (err, res) => {
+                    console.log('');
+                    console.log(colors.cyan('Your order has been processed.  Thank you for shopping with us!'));
+                    console.log('');
+
+                    connection.end();
+
+                });
             }
-        })
-
-
-
+        });
     });
 }
 
