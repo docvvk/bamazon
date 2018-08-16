@@ -59,7 +59,7 @@ var viewProducts = function(){
 		var table = new Table({
 			head: ['Item Id#', 'Product Name', 'Department Name', 'Price', 'Stock Quantity'],
 			style: {
-				head: ['green'],
+				head: ['white'],
 				compact: false,
 				colAligns: ['center'],
 			}
@@ -108,96 +108,96 @@ var viewInventory = function(){
 	})
 };
 
-// //creates the function for the third option of the prompt
-// var addInventory = function(){
-// 	//this adds the variable that will prompt the information needed to replenish the stock quantity of a certain item from the product list
-// 	var addInvt = {
-// 		properties:{
-// 			inventoryID: {
-// 				description: colors.green('What is the ID number of the product you want to add inventory for?')
-// 			},
-// 			inventoryAmount:{
-// 				description: colors.green('How many items do you want to add to the inventory?')
-// 			}
-// 		},
-// 	};
+//creates the function for the third option of the prompt
+var addInventory = function(){
+	//this adds the variable that will prompt the information needed to replenish the stock quantity of a certain item from the product list
+	var addInvt = {
+		properties:{
+			inventoryID: {
+				description: colors.white.bgBlue('What is the ID number of the product you want to add inventory for?')
+			},
+			inventoryAmount:{
+				description: colors.white.bgBlue('How many items do you want to add to the inventory?')
+			}
+		},
+	};
 
-// 	prompt.start();
+	prompt.start();
 
-// 	//get the information entered in response to the prompt above
-// 	prompt.get(addInvt, function(err, res){
+	//get the information entered in response to the prompt above
+	prompt.get(addInvt, function(err, res){
 
-// 		//creates a variable for the answers to the prompt questions
-// 		var invtAdded = {
-// 			inventoryAmount: res.inventoryAmount,
-// 			inventoryID: res.inventoryID,
-// 		}
+		//creates a variable for the answers to the prompt questions
+		var invtAdded = {
+			inventoryAmount: res.inventoryAmount,
+			inventoryID: res.inventoryID,
+		}
 
-// 		//pushes the responses to the inventoryUpdate array created at the top of this page
-// 		inventoryUpdate.push(invtAdded);
+		//pushes the responses to the inventoryUpdate array created at the top of this page
+		inventoryUpdate.push(invtAdded);
 
-// 		//connect to the mysql database Products and sets the stock quanitity to the number entered in the prompt above + the current stock quantity for a specific item iD
-// 		connection.query("UPDATE Products SET StockQuantity = (StockQuantity + ?) WHERE ItemID = ?;", [inventoryUpdate[0].inventoryAmount, inventoryUpdate[0].inventoryID], function(err, result){
+		//connect to the mysql database Products and sets the stock quanitity to the number entered in the prompt above + the current stock quantity for a specific item iD
+		connection.query("UPDATE products SET stock_quantity = (stock_quantity + ?) WHERE item_id = ?;", [inventoryUpdate[0].inventoryAmount, inventoryUpdate[0].inventoryID], function(err, result){
 
-// 			if(err) console.log('error '+ err);
+			if(err) console.log('error '+ err);
 
-// 			//then this selects the newly updated information from the mysql database so we can console.log a confirmation to the user with the updated stock amount
-// 			connection.query("SELECT * FROM Products WHERE ItemID = ?", inventoryUpdate[0].inventoryID, function(error, resOne){
-// 				console.log('');
-// 				console.log('The new updated stock quantity for id# '+inventoryUpdate[0].inventoryID+ ' is ' + resOne[0].StockQuantity);
-// 				console.log('');
-// 				connection.end();
-// 			})
+			//then this selects the newly updated information from the mysql database so we can console.log a confirmation to the user with the updated stock amount
+			connection.query("SELECT * FROM products WHERE item_id = ?", inventoryUpdate[0].inventoryID, function(error, resOne){
+				console.log('');
+				console.log(colors.rainbow('The new updated stock quantity for id# '+inventoryUpdate[0].inventoryID+ ' is ' + resOne[0].stock_quantity));
+				console.log('');
+				connection.end();
+			})
 
-// 		})
-// 	})
-// };
+		})
+	})
+};
 
-// //creates the function for the last option above
-// var addNewProduct = function(){
-// 	//creates the variable newProduct which contains the questions that are to be prompted to the user
-// 	var newProduct = {
-// 		properties: {
-// 			newIdNum:{ description: colors.gray('Please enter a unique 5 digit item Id #')},
-// 			newItemName:{ description: colors.gray('Please enter the name of the product you wish to add')},
-// 			newItemDepartment: { description: colors.gray('What department does this item belong in?')},
-// 			newItemPrice: { description: colors.gray('Please enter the price of the item in the format of 00.00')},
-// 			newStockQuantity: { description: colors.gray('Please enter a stock quantity for this item')},
-// 		}
-// 	}
+//creates the function for the last option above
+var addNewProduct = function(){
+	//creates the variable newProduct which contains the questions that are to be prompted to the user
+	var newProduct = {
+		properties: {
+			newIdNum:{ description: colors.gray('Please enter a unique 5 digit item Id #')},
+			newItemName:{ description: colors.gray('Please enter the name of the product you wish to add')},
+			newItemDepartment: { description: colors.gray('What department does this item belong in?')},
+			newItemPrice: { description: colors.gray('Please enter the price of the item in the format of 00.00')},
+			newStockQuantity: { description: colors.gray('Please enter a stock quantity for this item')},
+		}
+	}
 
-// 	prompt.start();
+	prompt.start();
 
-// 	//gets the responses for the prompt above
-// 	prompt.get(newProduct, function(err, res){
+	//gets the responses for the prompt above
+	prompt.get(newProduct, function(err, res){
 
-// 		//creates a variable for the responses to be logged to
-// 		var newItem = {
-// 			newIdNum: res.newIdNum,
-// 			newItemName: res. newItemName,
-// 			newItemDepartment: res.newItemDepartment,
-// 			newItemPrice: res.newItemPrice,
-// 			newStockQuantity: res.newStockQuantity,
+		//creates a variable for the responses to be logged to
+		var newItem = {
+			newIdNum: res.newIdNum,
+			newItemName: res.newItemName,
+			newItemDepartment: res.newItemDepartment,
+			newItemPrice: res.newItemPrice,
+			newStockQuantity: res.newStockQuantity,
 
-// 		};
+		};
 
-// 		//pushes the variable and the response data to the addedProduct array defined at the top of this page
-// 		addedProduct.push(newItem);
+		//pushes the variable and the response data to the addedProduct array defined at the top of this page
+		addedProduct.push(newItem);
 
-// 		//connects to mysql and inserts the responses to the prompt into the mysql database to create a new product within the database
-// 		connection.query('INSERT INTO Products (ItemID, ProductName, DepartmentName, Price, StockQuantity) VALUES (?, ?, ?, ?, ?);', [addedProduct[0].newIdNum, addedProduct[0].newItemName, addedProduct[0].newItemDepartment, addedProduct[0].newItemPrice, addedProduct[0].newStockQuantity], function(err, result){
+		//connects to mysql and inserts the responses to the prompt into the mysql database to create a new product within the database
+		connection.query('INSERT INTO products (item_id, product_name, department_name, price, stock_quantity) VALUES (?, ?, ?, ?, ?);', [addedProduct[0].newIdNum, addedProduct[0].newItemName, addedProduct[0].newItemDepartment, addedProduct[0].newItemPrice, addedProduct[0].newStockQuantity], function(err, result){
 
-// 			if(err) console.log('Error: ' + err);
+			if(err) console.log('Error: ' + err);
 
-// 			console.log('New item successfully added to the inventory!');
-// 			console.log(' ');
-// 			console.log('Item id#: ' + addedProduct[0].newIdNum);
-// 			console.log('Item name: ' + addedProduct[0].newItemName);
-// 			console.log('Department: ' + addedProduct[0].newItemDepartment);
-// 			console.log('Price: $' + addedProduct[0].newItemPrice);
-// 			console.log('Stock Quantity: ' + addedProduct[0].newStockQuantity);
+			console.log(colors.magenta('\nNew item successfully added to the inventory!'));
+			console.log(' ');
+			console.log('Item id#: ' + addedProduct[0].newIdNum);
+			console.log('Item name: ' + addedProduct[0].newItemName);
+			console.log('Department: ' + addedProduct[0].newItemDepartment);
+			console.log('Price: $' + addedProduct[0].newItemPrice);
+			console.log('Stock Quantity: ' + addedProduct[0].newStockQuantity);
 
-// 			connection.end();
-// 		})
-// 	})
-// };
+			connection.end();
+		})
+	})
+};
