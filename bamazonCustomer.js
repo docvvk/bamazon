@@ -1,5 +1,5 @@
 var mysql = require('mysql');
-var prompt= require('prompt');
+var prompt = require('prompt');
 var colors = require('colors/safe');
 var Table = require('cli-table');
 
