@@ -55,7 +55,7 @@ function promptUser() {
                 type: 'integer',
                 message: 'Entry must be a number',
                 required: true,
-                description: colors.blue('Please enter the ID # of the item you wish to purchase!'),
+                description: colors.green('Please enter the ID # of the item you wish to purchase!'),
             },
             quantity:
             {
@@ -97,7 +97,7 @@ function promptUser() {
                 var saleTotal = res[0].price * productPurchased[0].quantity;
 
                 //connect to mysql database departments and update the saleTotal of the item purchased
-                connection.query("UPDATE Departments SET TotalSales = ? WHERE department_name=?;", [saleTotal, res[0].department_name], (err, resOne) => {
+                connection.query("UPDATE departments SET total_sales = ? WHERE department_name=?;", [saleTotal, res[0].department_name], (err, resOne) => {
                     if (err) console.log('error ' + err);
                     return resOne;
                 });

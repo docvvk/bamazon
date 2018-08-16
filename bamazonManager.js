@@ -14,10 +14,10 @@ var connection = mysql.createConnection({
 var inventoryUpdate = [];
 var addedProduct = [];
 
-connection.connect(((err) => {
+connection.connect((err) => {
     if (err) throw err;
     // console.log(`Connected as ID: ${connection.threadId}\n`);
-}));
+});
 // * List a set of menu options: 1) View Products for Sale 2) View Low Inventory 3) Add to Inventory 4) Add New Product
 
 //creates the prompt that will be loaded when the app loads
