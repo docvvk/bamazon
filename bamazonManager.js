@@ -158,7 +158,7 @@ var addNewProduct = function(){
 	//creates the variable newProduct which contains the questions that are to be prompted to the user
 	var newProduct = {
 		properties: {
-			newIdNum:{ description: colors.gray('Please enter a unique 5 digit item Id #')},
+			newIdNum:{ description: colors.gray('Please enter a unique item Id #')},
 			newItemName:{ description: colors.gray('Please enter the name of the product you wish to add')},
 			newItemDepartment: { description: colors.gray('What department does this item belong in?')},
 			newItemPrice: { description: colors.gray('Please enter the price of the item in the format of 00.00')},
